@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
+>
+
 <title>🎹 Obsidian Piano</title>
-<style>html{background:#07070d!important;min-height:100%}body{min-height:100vh}</style>
-</head>
-<body>
-<div id="app">
 
 <style>
+
+html{
+  background:#07070d!important;
+  min-height:100%;
+}
+
+body{
+  min-height:100vh;
+}
+
+
+/* =====================================================
+   BASE
+===================================================== */
 
 *{
   box-sizing:border-box;
@@ -23,8 +39,10 @@ body{
   width:100%;
   height:100%;
   overflow:hidden;
+
   background:#080a0f;
   color:#fff;
+
   font-family:Arial,sans-serif;
 }
 
@@ -32,12 +50,20 @@ body{
   display:flex;
 }
 
+
+/* =====================================================
+   APP
+===================================================== */
+
 .app{
   width:100%;
   height:100%;
+
   display:flex;
   flex-direction:column;
+
   overflow:hidden;
+
   background:
     radial-gradient(
       circle at top,
@@ -46,14 +72,25 @@ body{
     );
 }
 
+
+/* =====================================================
+   TOPO
+===================================================== */
+
 .topbar{
   flex-shrink:0;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
+
   gap:8px;
+
   padding:8px 10px;
-  border-bottom:1px solid #242a35;
+
+  border-bottom:
+    1px solid
+    #242a35;
 }
 
 .title{
@@ -63,9 +100,16 @@ body{
 
 .note{
   margin-top:3px;
+
   color:#8c97a9;
+
   font-size:12px;
 }
+
+
+/* =====================================================
+   BOTÕES
+===================================================== */
 
 .controls{
   display:flex;
@@ -73,97 +117,106 @@ body{
 }
 
 button{
-  border:1px solid #303744;
+  border:
+    1px solid
+    #303744;
+
   background:#171c25;
+
   color:#fff;
+
   border-radius:9px;
+
   min-height:38px;
+
   padding:7px 10px;
+
   font-weight:800;
   font-size:12px;
+
   cursor:pointer;
+
   outline:none;
+
+  touch-action:manipulation;
 }
 
 button:active{
   transform:scale(.96);
 }
 
-.instrument-bar{
-  flex-shrink:0;
-  display:flex;
-  gap:5px;
-  padding:5px 6px;
-  overflow-x:auto;
-  overflow-y:hidden;
-  border-bottom:1px solid #202631;
-  scrollbar-width:none;
-  touch-action:pan-x;
-}
 
-.instrument-bar::-webkit-scrollbar{
-  display:none;
-}
-
-.instrument-button{
-  flex:0 0 auto;
-  min-width:72px;
-  min-height:35px;
-  padding:5px 8px;
-  font-size:11px;
-  white-space:nowrap;
-  background:#11161f;
-  border-color:#303744;
-}
-
-.instrument-button.active{
-  background:#2c3b51;
-  border-color:#6686ae;
-  box-shadow:
-    0 0 10px
-    rgba(80,140,220,.22);
-}
+/* =====================================================
+   CONTROLES DE OITAVA
+===================================================== */
 
 .control-bars{
   flex-shrink:0;
+
   display:flex;
   flex-direction:column;
+
   gap:4px;
+
   padding:4px 6px;
-  border-bottom:1px solid #202631;
+
+  border-bottom:
+    1px solid
+    #202631;
 }
 
 .control-row{
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   gap:8px;
 }
 
 .control-row button{
   width:42px;
   min-width:42px;
+
   min-height:34px;
+
   padding:4px 8px;
+
   font-size:17px;
+
+  touch-action:manipulation;
 }
 
 .control-label{
   min-width:120px;
+
   text-align:center;
+
   color:#aeb6c4;
+
   font-size:12px;
+
+  pointer-events:none;
 }
 
 .control-label strong{
   color:#fff;
 }
 
+
+/* =====================================================
+   ORIENTAÇÃO
+===================================================== */
+
 .orientation{
   flex-shrink:0;
+
   display:flex;
+
   justify-content:center;
+
   gap:6px;
+
   padding:4px;
 }
 
@@ -174,80 +227,182 @@ button:active{
 
 .orientation button.active{
   background:#2c3b51;
-  border-color:#557095;
+
+  border-color:
+    #557095;
 }
+
+
+/* =====================================================
+   ÁREA DO PIANO
+===================================================== */
 
 .piano-area{
   flex:1;
+
   min-height:0;
+
   width:100%;
+
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   overflow:hidden;
-  padding:6px 0;
+
+  padding:5px 0;
 }
+
+
+/* =====================================================
+   VIEWPORT
+===================================================== */
 
 .piano-viewport{
   position:relative;
+
   width:100%;
   height:100%;
+
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   overflow:hidden;
+
   touch-action:none;
 }
+
+
+/* =====================================================
+   PIANO
+===================================================== */
 
 .piano{
   position:relative;
+
   width:100%;
-  height:76%;
-  min-height:170px;
-  max-height:500px;
+
+  /*
+   * Um pouco maior que o original.
+   */
+
+  height:82%;
+
+  min-height:190px;
+
+  max-height:560px;
+
   display:flex;
+
   align-items:stretch;
   justify-content:center;
+
+  touch-action:none;
+
   transition:
     width .15s ease,
     height .15s ease;
-  touch-action:none;
 }
+
+
+/*
+ * Quando estiver deitado:
+ * ocupa praticamente toda a altura disponível.
+ */
+
+body.horizontal .piano{
+
+  width:100%;
+
+  height:94%;
+
+  max-height:none;
+
+}
+
+
+/* =====================================================
+   TECLADO
+===================================================== */
 
 .keyboard{
   position:relative;
+
   width:100%;
   height:100%;
+
   display:flex;
+
   overflow:visible;
+
   touch-action:none;
+
+  will-change:
+    transform;
 }
+
+
+/* =====================================================
+   OITAVA
+===================================================== */
 
 .octave{
   position:relative;
+
   height:100%;
-  flex:1 1 0;
-  min-width:0;
+
+  flex:
+    0 0 auto;
+
   display:flex;
+
   touch-action:none;
 }
 
+
+/* =====================================================
+   TECLAS BRANCAS
+===================================================== */
+
 .white-keys{
   position:absolute;
+
   inset:0;
+
   display:flex;
+
   width:100%;
   height:100%;
 }
 
 .white-key{
   position:relative;
-  flex:1 1 0;
+
+  flex:
+    1 1 0;
+
   min-width:0;
+
   height:100%;
-  padding:0 0 13px;
-  border:1px solid #777d87;
-  border-radius:0 0 9px 9px;
+
+  padding:
+    0
+    0
+    13px;
+
+  border:
+    1px solid
+    #777d87;
+
+  border-radius:
+    0
+    0
+    9px
+    9px;
+
   background:
     linear-gradient(
       to bottom,
@@ -255,14 +410,22 @@ button:active{
       #f0f1f3 72%,
       #c9ccd2 100%
     );
+
   color:#222831;
+
   display:flex;
+
   align-items:flex-end;
   justify-content:center;
+
   font-size:11px;
+
   font-weight:900;
+
   touch-action:none;
+
   outline:none;
+
   z-index:1;
 }
 
@@ -276,29 +439,57 @@ button:active{
     );
 
   box-shadow:
-    inset 0 -12px 22px
-      rgba(40,120,220,.35),
-    0 0 14px
-      rgba(60,145,255,.25);
+    inset
+    0 -12px
+    22px
+    rgba(40,120,220,.35),
+
+    0
+    0
+    14px
+    rgba(60,145,255,.25);
 }
+
+
+/* =====================================================
+   TECLAS PRETAS
+===================================================== */
 
 .black-keys{
   position:absolute;
+
   inset:0;
+
   width:100%;
   height:100%;
+
   pointer-events:none;
+
   z-index:5;
 }
 
 .black-key{
   position:absolute;
+
   top:0;
+
   width:11.5%;
+
   height:57%;
-  transform:translateX(-50%);
-  border:1px solid #000;
-  border-radius:0 0 7px 7px;
+
+  transform:
+    translateX(-50%);
+
+  border:
+    1px solid
+    #000;
+
+  border-radius:
+    0
+    0
+    7px
+    7px;
+
   background:
     linear-gradient(
       90deg,
@@ -306,11 +497,17 @@ button:active{
       #292d35 45%,
       #030405
     );
+
   box-shadow:
-    0 7px 10px
-      rgba(0,0,0,.7);
+    0
+    7px
+    10px
+    rgba(0,0,0,.7);
+
   pointer-events:auto;
+
   touch-action:none;
+
   z-index:10;
 }
 
@@ -324,60 +521,113 @@ button:active{
     );
 
   box-shadow:
-    0 0 17px
-      rgba(70,155,255,.7);
+    0
+    0
+    17px
+    rgba(70,155,255,.7);
 }
+
+
+/* =====================================================
+   NAVEGAÇÃO
+===================================================== */
 
 .navigation{
   position:absolute;
+
   left:0;
   right:0;
+
   top:50%;
-  transform:translateY(-50%);
+
+  transform:
+    translateY(-50%);
+
   display:flex;
+
   justify-content:space-between;
+
   padding:0 6px;
+
   pointer-events:none;
+
   z-index:30;
 }
 
 .nav-button{
   pointer-events:auto;
-  width:36px;
-  height:48px;
-  min-width:36px;
-  min-height:48px;
+
+  width:38px;
+  height:52px;
+
+  min-width:38px;
+  min-height:52px;
+
   padding:0;
+
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   border-radius:12px;
+
   background:
     rgba(15,19,27,.82);
-  border:1px solid #394352;
-  font-size:22px;
+
+  border:
+    1px solid
+    #394352;
+
+  font-size:24px;
+
   opacity:.8;
+
+  touch-action:manipulation;
 }
+
+.nav-button:disabled{
+  opacity:.22;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
 
 .status{
   flex-shrink:0;
+
   text-align:center;
+
   color:#778295;
+
   font-size:11px;
+
   padding:4px;
 }
 
+
+/* =====================================================
+   AJUDA
+===================================================== */
+
 .help{
   flex-shrink:0;
+
   text-align:center;
+
   color:#535e70;
+
   font-size:10px;
+
   padding-bottom:5px;
 }
 
-body.horizontal .piano{
-  height:78%;
-}
+
+/* =====================================================
+   CELULAR
+===================================================== */
 
 @media(max-width:600px){
 
@@ -395,23 +645,16 @@ body.horizontal .piano{
 
   .controls button{
     min-height:34px;
+
     padding:5px 7px;
-    font-size:10px;
-  }
 
-  .instrument-bar{
-    padding:4px 5px;
-  }
-
-  .instrument-button{
-    min-width:68px;
-    min-height:32px;
     font-size:10px;
   }
 
   .control-row button{
     width:38px;
     min-width:38px;
+
     min-height:32px;
   }
 
@@ -429,7 +672,7 @@ body.horizontal .piano{
   }
 
   .piano-area{
-    padding:4px 0;
+    padding:3px 0;
   }
 
   .white-key{
@@ -438,14 +681,15 @@ body.horizontal .piano{
 
 }
 
+
+/* =====================================================
+   TELAS BAIXAS
+===================================================== */
+
 @media(max-height:600px){
 
   .topbar{
     padding:4px 7px;
-  }
-
-  .instrument-bar{
-    padding:2px 5px;
   }
 
   .control-bars{
@@ -469,11 +713,62 @@ body.horizontal .piano{
     height:88% !important;
   }
 
+  body.horizontal .piano{
+    height:96% !important;
+  }
+
+}
+
+
+/* =====================================================
+   TELAS MUITO BAIXAS
+===================================================== */
+
+@media(max-height:430px){
+
+  .topbar{
+    padding:3px 6px;
+  }
+
+  .title{
+    font-size:14px;
+  }
+
+  .note{
+    display:none;
+  }
+
+  .control-bars{
+    padding:1px 4px;
+  }
+
+  .orientation{
+    padding:1px;
+  }
+
+  .orientation button{
+    min-height:26px;
+  }
+
+  .piano{
+    height:91% !important;
+  }
+
+  body.horizontal .piano{
+    height:98% !important;
+  }
+
 }
 
 </style>
 
+
 <div class="app">
+
+
+  <!-- =================================================
+       TOPO
+  ================================================== -->
 
   <div class="topbar">
 
@@ -494,11 +789,17 @@ body.horizontal .piano{
 
     <div class="controls">
 
-      <button id="rotateBtn">
+      <button
+        id="rotateBtn"
+        type="button"
+      >
         ↔️ Horizontal
       </button>
 
-      <button id="invertBtn">
+      <button
+        id="invertBtn"
+        type="button"
+      >
         🔄
       </button>
 
@@ -507,75 +808,21 @@ body.horizontal .piano{
   </div>
 
 
-  <div
-    class="instrument-bar"
-    id="instrumentBar"
-  >
-
-    <button
-      class="instrument-button active"
-      data-instrument="piano"
-    >
-      🎹 Piano
-    </button>
-
-    <button
-      class="instrument-button"
-      data-instrument="sax"
-    >
-      🎷 Sax
-    </button>
-
-    <button
-      class="instrument-button"
-      data-instrument="trumpet"
-    >
-      🎺 Trompete
-    </button>
-
-    <button
-      class="instrument-button"
-      data-instrument="flute"
-    >
-      🪈 Flauta
-    </button>
-
-    <button
-      class="instrument-button"
-      data-instrument="trombone"
-    >
-      🎺 Trombone
-    </button>
-
-    <button
-      class="instrument-button"
-      data-instrument="drums"
-    >
-      🥁 Bateria
-    </button>
-
-    <button
-      class="instrument-button"
-      data-instrument="guitar"
-    >
-      🎸 Guitarra
-    </button>
-
-    <button
-      class="instrument-button"
-      data-instrument="acoustic"
-    >
-      🎸 Violão
-    </button>
-
-  </div>
-
+  <!-- =================================================
+       CONTROLES
+  ================================================== -->
 
   <div class="control-bars">
 
+
+    <!-- OITAVA -->
+
     <div class="control-row">
 
-      <button id="octaveDown">
+      <button
+        id="octaveDown"
+        type="button"
+      >
         −
       </button>
 
@@ -588,16 +835,24 @@ body.horizontal .piano{
 
       </div>
 
-      <button id="octaveUp">
+      <button
+        id="octaveUp"
+        type="button"
+      >
         +
       </button>
 
     </div>
 
 
+    <!-- TECLAS VISÍVEIS -->
+
     <div class="control-row">
 
-      <button id="viewDown">
+      <button
+        id="viewDown"
+        type="button"
+      >
         −
       </button>
 
@@ -610,7 +865,10 @@ body.horizontal .piano{
 
       </div>
 
-      <button id="viewUp">
+      <button
+        id="viewUp"
+        type="button"
+      >
         +
       </button>
 
@@ -619,23 +877,33 @@ body.horizontal .piano{
   </div>
 
 
+  <!-- =================================================
+       ORIENTAÇÃO
+  ================================================== -->
+
   <div class="orientation">
 
     <button
       id="verticalBtn"
       class="active"
+      type="button"
     >
       📱 Vertical
     </button>
 
     <button
       id="horizontalBtn"
+      type="button"
     >
       📱 Horizontal
     </button>
 
   </div>
 
+
+  <!-- =================================================
+       ÁREA DO PIANO
+  ================================================== -->
 
   <div class="piano-area">
 
@@ -656,11 +924,14 @@ body.horizontal .piano{
 
       </div>
 
+
       <div class="navigation">
 
         <button
           class="nav-button"
           id="navLeft"
+          type="button"
+          aria-label="Esquerda"
         >
           ‹
         </button>
@@ -668,6 +939,8 @@ body.horizontal .piano{
         <button
           class="nav-button"
           id="navRight"
+          type="button"
+          aria-label="Direita"
         >
           ›
         </button>
@@ -679,6 +952,10 @@ body.horizontal .piano{
   </div>
 
 
+  <!-- =================================================
+       STATUS
+  ================================================== -->
+
   <div
     class="status"
     id="status"
@@ -686,9 +963,11 @@ body.horizontal .piano{
     🎵 Toque em uma tecla para ativar o áudio
   </div>
 
+
   <div class="help">
     Teclado: A W S E D F T G
   </div>
+
 
 </div>
 
@@ -697,66 +976,105 @@ body.horizontal .piano{
 
 (() => {
 
+"use strict";
+
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
 const piano =
-  document.getElementById("piano");
+  document.getElementById(
+    "piano"
+  );
 
 const keyboard =
-  document.getElementById("keyboard");
+  document.getElementById(
+    "keyboard"
+  );
 
 const pianoViewport =
-  document.getElementById("pianoViewport");
+  document.getElementById(
+    "pianoViewport"
+  );
 
 const noteDisplay =
-  document.getElementById("noteDisplay");
+  document.getElementById(
+    "noteDisplay"
+  );
 
 const status =
-  document.getElementById("status");
+  document.getElementById(
+    "status"
+  );
 
 const octaveValue =
-  document.getElementById("octaveValue");
+  document.getElementById(
+    "octaveValue"
+  );
 
 const viewValue =
-  document.getElementById("viewValue");
+  document.getElementById(
+    "viewValue"
+  );
 
 const rotateBtn =
-  document.getElementById("rotateBtn");
+  document.getElementById(
+    "rotateBtn"
+  );
 
 const invertBtn =
-  document.getElementById("invertBtn");
+  document.getElementById(
+    "invertBtn"
+  );
 
 const verticalBtn =
-  document.getElementById("verticalBtn");
+  document.getElementById(
+    "verticalBtn"
+  );
 
 const horizontalBtn =
-  document.getElementById("horizontalBtn");
+  document.getElementById(
+    "horizontalBtn"
+  );
 
 const viewDown =
-  document.getElementById("viewDown");
+  document.getElementById(
+    "viewDown"
+  );
 
 const viewUp =
-  document.getElementById("viewUp");
+  document.getElementById(
+    "viewUp"
+  );
 
 const octaveDown =
-  document.getElementById("octaveDown");
+  document.getElementById(
+    "octaveDown"
+  );
 
 const octaveUp =
-  document.getElementById("octaveUp");
+  document.getElementById(
+    "octaveUp"
+  );
 
 const navLeft =
-  document.getElementById("navLeft");
+  document.getElementById(
+    "navLeft"
+  );
 
 const navRight =
-  document.getElementById("navRight");
-
-const instrumentButtons =
-  [
-    ...document.querySelectorAll(
-      ".instrument-button"
-    )
-  ];
+  document.getElementById(
+    "navRight"
+  );
 
 
-let octave = 4;
+/* =====================================================
+   CONFIGURAÇÃO
+===================================================== */
+
+let octave =
+  4;
 
 let orientation =
   "vertical";
@@ -770,20 +1088,6 @@ let visibleOctaves =
 let viewOffset =
   0;
 
-let audioContext =
-  null;
-
-let masterGain =
-  null;
-
-let currentInstrument =
-  "piano";
-
-const activeVoices =
-  new Set();
-
-const pressed =
-  new Map();
 
 const MIN_VISIBLE =
   1;
@@ -791,7 +1095,9 @@ const MIN_VISIBLE =
 const MAX_VISIBLE =
   8;
 
+
 const whiteNotes = [
+
   "C",
   "D",
   "E",
@@ -799,9 +1105,12 @@ const whiteNotes = [
   "G",
   "A",
   "B"
+
 ];
 
+
 const computerKeys = [
+
   "a",
   "w",
   "s",
@@ -810,12 +1119,30 @@ const computerKeys = [
   "f",
   "t",
   "g"
+
 ];
 
 
-/* =================================
+/* =====================================================
+   ÁUDIO
+===================================================== */
+
+let audioContext =
+  null;
+
+let masterGain =
+  null;
+
+const activeVoices =
+  new Set();
+
+const pressed =
+  new Map();
+
+
+/* =====================================================
    FREQUÊNCIA
-================================= */
+===================================================== */
 
 function getFrequency(
   note,
@@ -826,23 +1153,31 @@ function getFrequency(
 
     C:0,
     "C#":1,
+
     D:2,
     "D#":3,
+
     E:4,
+
     F:5,
     "F#":6,
+
     G:7,
     "G#":8,
+
     A:9,
     "A#":10,
+
     B:11
 
   };
+
 
   const midi =
     (noteOctave + 1) *
     12 +
     semitones[note];
+
 
   return 440 *
     Math.pow(
@@ -853,9 +1188,9 @@ function getFrequency(
 }
 
 
-/* =================================
+/* =====================================================
    INICIALIZAR ÁUDIO
-================================= */
+===================================================== */
 
 function initAudio(){
 
@@ -867,6 +1202,7 @@ function initAudio(){
         window.AudioContext ||
         window.webkitAudioContext;
 
+
       if(!AudioContext){
 
         status.textContent =
@@ -876,20 +1212,25 @@ function initAudio(){
 
       }
 
+
       audioContext =
         new AudioContext();
+
 
       masterGain =
         audioContext.createGain();
 
+
       masterGain.gain.value =
-        0.75;
+        .75;
+
 
       masterGain.connect(
         audioContext.destination
       );
 
     }
+
 
     if(
       audioContext.state !==
@@ -900,6 +1241,7 @@ function initAudio(){
 
     }
 
+
     return true;
 
   }catch(error){
@@ -909,8 +1251,10 @@ function initAudio(){
       error
     );
 
+
     status.textContent =
       "❌ Erro ao iniciar o áudio.";
+
 
     return false;
 
@@ -919,15 +1263,18 @@ function initAudio(){
 }
 
 
-/* =================================
+/* =====================================================
    DESBLOQUEAR ÁUDIO
-================================= */
+===================================================== */
 
 function unlockAudio(){
 
   if(!initAudio()){
+
     return;
+
   }
+
 
   if(
     audioContext.state ===
@@ -950,9 +1297,9 @@ document.addEventListener(
 );
 
 
-/* =================================
+/* =====================================================
    ENVELOPE
-================================= */
+===================================================== */
 
 function envelope(
   gain,
@@ -966,30 +1313,33 @@ function envelope(
     now
   );
 
+
   gain.gain.setValueAtTime(
-    0.0001,
+    .0001,
     now
   );
 
+
   gain.gain.exponentialRampToValueAtTime(
     Math.max(
-      0.0001,
+      .0001,
       peak
     ),
     now + attack
   );
 
+
   gain.gain.exponentialRampToValueAtTime(
-    0.0001,
+    .0001,
     now + release
   );
 
 }
 
 
-/* =================================
+/* =====================================================
    FILTRO
-================================= */
+===================================================== */
 
 function createFilter(
   type,
@@ -1000,6 +1350,7 @@ function createFilter(
   const filter =
     audioContext.createBiquadFilter();
 
+
   filter.type =
     type;
 
@@ -1009,14 +1360,15 @@ function createFilter(
   filter.Q.value =
     Q;
 
+
   return filter;
 
 }
 
 
-/* =================================
-   CONECTAR VOZ AO MASTER
-================================= */
+/* =====================================================
+   SAÍDA
+===================================================== */
 
 function connectOutput(
   output
@@ -1029,9 +1381,9 @@ function connectOutput(
 }
 
 
-/* =================================
-   PIANO
-================================= */
+/* =====================================================
+   VOZ DO PIANO
+===================================================== */
 
 function createPianoVoice(
   frequency,
@@ -1041,12 +1393,14 @@ function createPianoVoice(
   const output =
     audioContext.createGain();
 
+
   const filter =
     createFilter(
       "lowpass",
       4200,
-      0.7
+      .7
     );
+
 
   const osc1 =
     audioContext.createOscillator();
@@ -1054,11 +1408,13 @@ function createPianoVoice(
   const osc2 =
     audioContext.createOscillator();
 
+
   const gain1 =
     audioContext.createGain();
 
   const gain2 =
     audioContext.createGain();
+
 
   osc1.type =
     "triangle";
@@ -1066,38 +1422,66 @@ function createPianoVoice(
   osc2.type =
     "sine";
 
+
   osc1.frequency.value =
     frequency;
 
   osc2.frequency.value =
     frequency * 2;
 
+
   gain1.gain.value =
-    0.42;
+    .42;
 
   gain2.gain.value =
-    0.12;
+    .12;
 
-  osc1.connect(gain1);
-  osc2.connect(gain2);
 
-  gain1.connect(filter);
-  gain2.connect(filter);
+  osc1.connect(
+    gain1
+  );
 
-  filter.connect(output);
+  osc2.connect(
+    gain2
+  );
 
-  connectOutput(output);
+
+  gain1.connect(
+    filter
+  );
+
+  gain2.connect(
+    filter
+  );
+
+
+  filter.connect(
+    output
+  );
+
+
+  connectOutput(
+    output
+  );
+
 
   envelope(
     output,
     now,
-    0.008,
-    0.55,
+    .008,
+    .55,
     2.2
   );
 
-  osc1.start(now);
-  osc2.start(now);
+
+  osc1.start(
+    now
+  );
+
+  osc2.start(
+    now
+  );
+
 
   osc1.stop(
     now + 2.25
@@ -1107,889 +1491,24 @@ function createPianoVoice(
     now + 2.25
   );
 
+
   return {
+
     output,
+
     oscillators:[
       osc1,
       osc2
     ]
+
   };
 
 }
 
 
-/* =================================
-   SAX
-================================= */
-
-function createSaxVoice(
-  frequency,
-  now
-){
-
-  const output =
-    audioContext.createGain();
-
-  const filter =
-    createFilter(
-      "lowpass",
-      2600,
-      1.5
-    );
-
-  const osc1 =
-    audioContext.createOscillator();
-
-  const osc2 =
-    audioContext.createOscillator();
-
-  const gain1 =
-    audioContext.createGain();
-
-  const gain2 =
-    audioContext.createGain();
-
-  osc1.type =
-    "sawtooth";
-
-  osc2.type =
-    "square";
-
-  osc1.frequency.value =
-    frequency;
-
-  osc2.frequency.value =
-    frequency * 2;
-
-  gain1.gain.value =
-    0.17;
-
-  gain2.gain.value =
-    0.045;
-
-  osc1.connect(gain1);
-  osc2.connect(gain2);
-
-  gain1.connect(filter);
-  gain2.connect(filter);
-
-  filter.connect(output);
-
-  connectOutput(output);
-
-  envelope(
-    output,
-    now,
-    0.055,
-    0.48,
-    1.7
-  );
-
-  osc1.start(now);
-  osc2.start(now);
-
-  osc1.stop(
-    now + 1.9
-  );
-
-  osc2.stop(
-    now + 1.9
-  );
-
-  return {
-    output,
-    oscillators:[
-      osc1,
-      osc2
-    ]
-  };
-
-}
-
-
-/* =================================
-   TROMPETE
-================================= */
-
-function createTrumpetVoice(
-  frequency,
-  now
-){
-
-  const output =
-    audioContext.createGain();
-
-  const filter =
-    createFilter(
-      "lowpass",
-      3200,
-      1.2
-    );
-
-  const osc1 =
-    audioContext.createOscillator();
-
-  const osc2 =
-    audioContext.createOscillator();
-
-  const gain1 =
-    audioContext.createGain();
-
-  const gain2 =
-    audioContext.createGain();
-
-  osc1.type =
-    "sawtooth";
-
-  osc2.type =
-    "square";
-
-  osc1.frequency.value =
-    frequency;
-
-  osc2.frequency.value =
-    frequency * 2;
-
-  gain1.gain.value =
-    0.15;
-
-  gain2.gain.value =
-    0.035;
-
-  osc1.connect(gain1);
-  osc2.connect(gain2);
-
-  gain1.connect(filter);
-  gain2.connect(filter);
-
-  filter.connect(output);
-
-  connectOutput(output);
-
-  envelope(
-    output,
-    now,
-    0.035,
-    0.40,
-    1.35
-  );
-
-  osc1.start(now);
-  osc2.start(now);
-
-  osc1.stop(
-    now + 1.55
-  );
-
-  osc2.stop(
-    now + 1.55
-  );
-
-  return {
-    output,
-    oscillators:[
-      osc1,
-      osc2
-    ]
-  };
-
-}
-
-
-/* =================================
-   FLAUTA
-================================= */
-
-function createFluteVoice(
-  frequency,
-  now
-){
-
-  const output =
-    audioContext.createGain();
-
-  const filter =
-    createFilter(
-      "lowpass",
-      3000,
-      0.6
-    );
-
-  const osc =
-    audioContext.createOscillator();
-
-  const osc2 =
-    audioContext.createOscillator();
-
-  const gain =
-    audioContext.createGain();
-
-  const gain2 =
-    audioContext.createGain();
-
-  osc.type =
-    "sine";
-
-  osc2.type =
-    "triangle";
-
-  osc.frequency.value =
-    frequency;
-
-  osc2.frequency.value =
-    frequency * 2;
-
-  gain.gain.value =
-    0.28;
-
-  gain2.gain.value =
-    0.045;
-
-  osc.connect(gain);
-  osc2.connect(gain2);
-
-  gain.connect(filter);
-  gain2.connect(filter);
-
-  filter.connect(output);
-
-  connectOutput(output);
-
-  envelope(
-    output,
-    now,
-    0.08,
-    0.38,
-    1.8
-  );
-
-  osc.start(now);
-  osc2.start(now);
-
-  osc.stop(
-    now + 2
-  );
-
-  osc2.stop(
-    now + 2
-  );
-
-  return {
-    output,
-    oscillators:[
-      osc,
-      osc2
-    ]
-  };
-
-}
-
-
-/* =================================
-   TROMBONE
-================================= */
-
-function createTromboneVoice(
-  frequency,
-  now
-){
-
-  const output =
-    audioContext.createGain();
-
-  const filter =
-    createFilter(
-      "lowpass",
-      1900,
-      1.1
-    );
-
-  const osc =
-    audioContext.createOscillator();
-
-  const osc2 =
-    audioContext.createOscillator();
-
-  const gain =
-    audioContext.createGain();
-
-  const gain2 =
-    audioContext.createGain();
-
-  osc.type =
-    "sawtooth";
-
-  osc2.type =
-    "square";
-
-  osc.frequency.value =
-    frequency;
-
-  osc2.frequency.value =
-    frequency * 2;
-
-  gain.gain.value =
-    0.17;
-
-  gain2.gain.value =
-    0.025;
-
-  osc.connect(gain);
-  osc2.connect(gain2);
-
-  gain.connect(filter);
-  gain2.connect(filter);
-
-  filter.connect(output);
-
-  connectOutput(output);
-
-  envelope(
-    output,
-    now,
-    0.07,
-    0.44,
-    1.8
-  );
-
-  osc.start(now);
-  osc2.start(now);
-
-  osc.stop(
-    now + 2
-  );
-
-  osc2.stop(
-    now + 2
-  );
-
-  return {
-    output,
-    oscillators:[
-      osc,
-      osc2
-    ]
-  };
-
-}
-
-
-/* =================================
-   GUITARRA
-================================= */
-
-function createGuitarVoice(
-  frequency,
-  now
-){
-
-  const output =
-    audioContext.createGain();
-
-  const filter =
-    createFilter(
-      "lowpass",
-      3400,
-      1.3
-    );
-
-  const osc =
-    audioContext.createOscillator();
-
-  const osc2 =
-    audioContext.createOscillator();
-
-  const gain =
-    audioContext.createGain();
-
-  const gain2 =
-    audioContext.createGain();
-
-  osc.type =
-    "triangle";
-
-  osc2.type =
-    "sawtooth";
-
-  osc.frequency.value =
-    frequency;
-
-  osc2.frequency.value =
-    frequency * 2;
-
-  gain.gain.value =
-    0.32;
-
-  gain2.gain.value =
-    0.035;
-
-  osc.connect(gain);
-  osc2.connect(gain2);
-
-  gain.connect(filter);
-  gain2.connect(filter);
-
-  filter.connect(output);
-
-  connectOutput(output);
-
-  envelope(
-    output,
-    now,
-    0.004,
-    0.48,
-    0.75
-  );
-
-  osc.start(now);
-  osc2.start(now);
-
-  osc.stop(
-    now + 0.95
-  );
-
-  osc2.stop(
-    now + 0.95
-  );
-
-  return {
-    output,
-    oscillators:[
-      osc,
-      osc2
-    ]
-  };
-
-}
-
-
-/* =================================
-   VIOLÃO
-================================= */
-
-function createAcousticVoice(
-  frequency,
-  now
-){
-
-  const output =
-    audioContext.createGain();
-
-  const filter =
-    createFilter(
-      "lowpass",
-      3000,
-      0.9
-    );
-
-  const osc =
-    audioContext.createOscillator();
-
-  const osc2 =
-    audioContext.createOscillator();
-
-  const gain =
-    audioContext.createGain();
-
-  const gain2 =
-    audioContext.createGain();
-
-  osc.type =
-    "triangle";
-
-  osc2.type =
-    "sine";
-
-  osc.frequency.value =
-    frequency;
-
-  osc2.frequency.value =
-    frequency * 2;
-
-  gain.gain.value =
-    0.34;
-
-  gain2.gain.value =
-    0.055;
-
-  osc.connect(gain);
-  osc2.connect(gain2);
-
-  gain.connect(filter);
-  gain2.connect(filter);
-
-  filter.connect(output);
-
-  connectOutput(output);
-
-  envelope(
-    output,
-    now,
-    0.003,
-    0.44,
-    1.05
-  );
-
-  osc.start(now);
-  osc2.start(now);
-
-  osc.stop(
-    now + 1.25
-  );
-
-  osc2.stop(
-    now + 1.25
-  );
-
-  return {
-    output,
-    oscillators:[
-      osc,
-      osc2
-    ]
-  };
-
-}
-
-
-/* =================================
-   RUÍDO
-================================= */
-
-function createNoise(
-  duration
-){
-
-  const length =
-    Math.floor(
-      audioContext.sampleRate *
-      duration
-    );
-
-  const buffer =
-    audioContext.createBuffer(
-      1,
-      length,
-      audioContext.sampleRate
-    );
-
-  const data =
-    buffer.getChannelData(0);
-
-  for(
-    let i = 0;
-    i < data.length;
-    i++
-  ){
-
-    data[i] =
-      Math.random() * 2 - 1;
-
-  }
-
-  return buffer;
-
-}
-
-
-/* =================================
-   KICK
-================================= */
-
-function playKick(){
-
-  const now =
-    audioContext.currentTime;
-
-  const osc =
-    audioContext.createOscillator();
-
-  const gain =
-    audioContext.createGain();
-
-  osc.type =
-    "sine";
-
-  osc.frequency.setValueAtTime(
-    150,
-    now
-  );
-
-  osc.frequency.exponentialRampToValueAtTime(
-    42,
-    now + 0.16
-  );
-
-  gain.gain.setValueAtTime(
-    0.9,
-    now
-  );
-
-  gain.gain.exponentialRampToValueAtTime(
-    0.0001,
-    now + 0.32
-  );
-
-  osc.connect(gain);
-
-  connectOutput(gain);
-
-  osc.start(now);
-
-  osc.stop(
-    now + 0.34
-  );
-
-}
-
-
-/* =================================
-   SNARE
-================================= */
-
-function playSnare(){
-
-  const now =
-    audioContext.currentTime;
-
-  const buffer =
-    createNoise(0.25);
-
-  const source =
-    audioContext.createBufferSource();
-
-  const filter =
-    createFilter(
-      "highpass",
-      1000
-    );
-
-  const gain =
-    audioContext.createGain();
-
-  source.buffer =
-    buffer;
-
-  gain.gain.setValueAtTime(
-    0.65,
-    now
-  );
-
-  gain.gain.exponentialRampToValueAtTime(
-    0.0001,
-    now + 0.2
-  );
-
-  source.connect(filter);
-  filter.connect(gain);
-
-  connectOutput(gain);
-
-  source.start(now);
-
-}
-
-
-/* =================================
-   HI-HAT
-================================= */
-
-function playHat(){
-
-  const now =
-    audioContext.currentTime;
-
-  const buffer =
-    createNoise(0.09);
-
-  const source =
-    audioContext.createBufferSource();
-
-  const filter =
-    createFilter(
-      "highpass",
-      5000
-    );
-
-  const gain =
-    audioContext.createGain();
-
-  source.buffer =
-    buffer;
-
-  gain.gain.setValueAtTime(
-    0.45,
-    now
-  );
-
-  gain.gain.exponentialRampToValueAtTime(
-    0.0001,
-    now + 0.075
-  );
-
-  source.connect(filter);
-  filter.connect(gain);
-
-  connectOutput(gain);
-
-  source.start(now);
-
-}
-
-
-/* =================================
-   TOM
-================================= */
-
-function playTom(
-  frequency
-){
-
-  const now =
-    audioContext.currentTime;
-
-  const osc =
-    audioContext.createOscillator();
-
-  const gain =
-    audioContext.createGain();
-
-  osc.type =
-    "sine";
-
-  osc.frequency.setValueAtTime(
-    frequency,
-    now
-  );
-
-  osc.frequency.exponentialRampToValueAtTime(
-    frequency * 0.5,
-    now + 0.22
-  );
-
-  gain.gain.setValueAtTime(
-    0.65,
-    now
-  );
-
-  gain.gain.exponentialRampToValueAtTime(
-    0.0001,
-    now + 0.34
-  );
-
-  osc.connect(gain);
-
-  connectOutput(gain);
-
-  osc.start(now);
-
-  osc.stop(
-    now + 0.36
-  );
-
-}
-
-
-/* =================================
-   CRASH
-================================= */
-
-function playCrash(){
-
-  const now =
-    audioContext.currentTime;
-
-  const buffer =
-    createNoise(0.9);
-
-  const source =
-    audioContext.createBufferSource();
-
-  const filter =
-    createFilter(
-      "highpass",
-      3200
-    );
-
-  const gain =
-    audioContext.createGain();
-
-  source.buffer =
-    buffer;
-
-  gain.gain.setValueAtTime(
-    0.55,
-    now
-  );
-
-  gain.gain.exponentialRampToValueAtTime(
-    0.0001,
-    now + 0.8
-  );
-
-  source.connect(filter);
-  filter.connect(gain);
-
-  connectOutput(gain);
-
-  source.start(now);
-
-}
-
-
-/* =================================
-   BATERIA
-================================= */
-
-function playDrum(
-  note
-){
-
-  if(!initAudio()){
-    return;
-  }
-
-  switch(note){
-
-    case "C":
-      playKick();
-      break;
-
-    case "D":
-      playSnare();
-      break;
-
-    case "E":
-      playHat();
-      break;
-
-    case "F":
-      playTom(190);
-      break;
-
-    case "G":
-      playTom(125);
-      break;
-
-    case "A":
-      playCrash();
-      break;
-
-    case "B":
-      playHat();
-      break;
-
-    default:
-      playKick();
-
-  }
-
-}
-
-
-/* =================================
+/* =====================================================
    CRIAR VOZ
-================================= */
+===================================================== */
 
 function createVoice(
   note,
@@ -1997,19 +1516,11 @@ function createVoice(
 ){
 
   if(!initAudio()){
-    return null;
-  }
-
-  if(
-    currentInstrument ===
-    "drums"
-  ){
-
-    playDrum(note);
 
     return null;
 
   }
+
 
   const frequency =
     getFrequency(
@@ -2017,72 +1528,22 @@ function createVoice(
       noteOctave
     );
 
+
   const now =
     audioContext.currentTime;
 
-  switch(
-    currentInstrument
-  ){
 
-    case "sax":
-
-      return createSaxVoice(
-        frequency,
-        now
-      );
-
-    case "trumpet":
-
-      return createTrumpetVoice(
-        frequency,
-        now
-      );
-
-    case "flute":
-
-      return createFluteVoice(
-        frequency,
-        now
-      );
-
-    case "trombone":
-
-      return createTromboneVoice(
-        frequency,
-        now
-      );
-
-    case "guitar":
-
-      return createGuitarVoice(
-        frequency,
-        now
-      );
-
-    case "acoustic":
-
-      return createAcousticVoice(
-        frequency,
-        now
-      );
-
-    case "piano":
-
-    default:
-
-      return createPianoVoice(
-        frequency,
-        now
-      );
-
-  }
+  return createPianoVoice(
+    frequency,
+    now
+  );
 
 }
 
 
-/* =================================
+/* =====================================================
    TOCAR
-================================= */
+===================================================== */
 
 function playNote(
   note,
@@ -2091,46 +1552,18 @@ function playNote(
 ){
 
   if(!initAudio()){
-    return;
-  }
-
-  if(
-    currentInstrument ===
-    "drums"
-  ){
-
-    playDrum(note);
-
-    element.classList.add(
-      "active"
-    );
-
-    noteDisplay.textContent =
-      "🥁 " +
-      note;
-
-    status.textContent =
-      "🥁 Bateria — " +
-      note;
-
-    setTimeout(
-      () => {
-
-        element.classList.remove(
-          "active"
-        );
-
-      },
-      100
-    );
 
     return;
 
   }
+
 
   if(element._osc){
+
     return;
+
   }
+
 
   const voice =
     createVoice(
@@ -2138,63 +1571,52 @@ function playNote(
       noteOctave
     );
 
+
   if(!voice){
+
     return;
+
   }
+
 
   element._osc =
     voice;
 
+
   element._gain =
     voice.output;
 
+
   element._pressed =
     true;
+
 
   activeVoices.add(
     element
   );
 
+
   element.classList.add(
     "active"
   );
+
 
   noteDisplay.textContent =
     note +
     noteOctave;
 
-  const instrumentNames = {
-
-    piano:"🎹 Piano",
-
-    sax:"🎷 Saxofone",
-
-    trumpet:"🎺 Trompete",
-
-    flute:"🪈 Flauta",
-
-    trombone:"🎺 Trombone",
-
-    guitar:"🎸 Guitarra",
-
-    acoustic:"🎸 Violão"
-
-  };
 
   status.textContent =
-    instrumentNames[
-      currentInstrument
-    ] +
-    " — " +
+    "🎹 Piano — " +
     note +
     noteOctave;
 
 }
 
 
-/* =================================
+/* =====================================================
    PARAR
-================================= */
+===================================================== */
 
 function stopNote(
   element
@@ -2205,17 +1627,23 @@ function stopNote(
     !element._osc ||
     !audioContext
   ){
+
     return;
+
   }
+
 
   const now =
     audioContext.currentTime;
 
+
   const voice =
     element._osc;
 
+
   const gain =
     element._gain;
+
 
   try{
 
@@ -2225,20 +1653,23 @@ function stopNote(
         now
       );
 
+
       gain.gain.setValueAtTime(
         Math.max(
-          0.0001,
+          .0001,
           gain.gain.value
         ),
         now
       );
 
+
       gain.gain.exponentialRampToValueAtTime(
-        0.0001,
-        now + 0.12
+        .0001,
+        now + .12
       );
 
     }
+
 
     if(
       voice.oscillators
@@ -2252,7 +1683,7 @@ function stopNote(
         try{
 
           oscillator.stop(
-            now + 0.15
+            now + .15
           );
 
         }catch{}
@@ -2263,15 +1694,21 @@ function stopNote(
 
   }catch{}
 
+
   element._osc =
     null;
 
   element._gain =
     null;
 
+  element._pressed =
+    false;
+
+
   element.classList.remove(
     "active"
   );
+
 
   activeVoices.delete(
     element
@@ -2280,9 +1717,9 @@ function stopNote(
 }
 
 
-/* =================================
-   PARAR TUDO
-================================= */
+/* =====================================================
+   PARAR TODAS
+===================================================== */
 
 function stopAllNotes(){
 
@@ -2300,9 +1737,9 @@ function stopAllNotes(){
 }
 
 
-/* =================================
+/* =====================================================
    LIGAR TECLA
-================================= */
+===================================================== */
 
 function bindKey(
   element,
@@ -2316,6 +1753,7 @@ function bindKey(
   element.dataset.octave =
     noteOctave;
 
+
   element.addEventListener(
     "pointerdown",
     event => {
@@ -2324,18 +1762,22 @@ function bindKey(
 
       event.stopPropagation();
 
+
       unlockAudio();
 
+
       if(
-        currentInstrument !==
-        "drums" &&
         element._pressed
       ){
+
         return;
+
       }
+
 
       element._pressed =
         true;
+
 
       try{
 
@@ -2345,14 +1787,19 @@ function bindKey(
 
       }catch{}
 
+
       playNote(
         note,
         noteOctave,
         element
       );
 
+    },
+    {
+      passive:false
     }
   );
+
 
   element.addEventListener(
     "pointerup",
@@ -2362,8 +1809,24 @@ function bindKey(
 
       event.stopPropagation();
 
-      element._pressed =
-        false;
+
+      stopNote(
+        element
+      );
+
+    },
+    {
+      passive:false
+    }
+  );
+
+
+  element.addEventListener(
+    "pointercancel",
+    event => {
+
+      event.stopPropagation();
+
 
       stopNote(
         element
@@ -2372,14 +1835,10 @@ function bindKey(
     }
   );
 
+
   element.addEventListener(
-    "pointercancel",
-    event => {
-
-      event.stopPropagation();
-
-      element._pressed =
-        false;
+    "lostpointercapture",
+    () => {
 
       stopNote(
         element
@@ -2391,13 +1850,12 @@ function bindKey(
 }
 
 
-/* =================================
+/* =====================================================
    CRIAR OITAVA
-================================= */
+===================================================== */
 
 function createOctave(
-  octaveNumber,
-  octaveIndex
+  octaveNumber
 ){
 
   const octaveElement =
@@ -2405,27 +1863,36 @@ function createOctave(
       "div"
     );
 
+
   octaveElement.className =
     "octave";
 
+
   octaveElement.dataset.octave =
     octaveNumber;
+
 
   const whites =
     document.createElement(
       "div"
     );
 
+
   whites.className =
     "white-keys";
+
 
   const blacks =
     document.createElement(
       "div"
     );
 
+
   blacks.className =
     "black-keys";
+
+
+  /* BRANCAS */
 
   for(
     let i = 0;
@@ -2436,20 +1903,25 @@ function createOctave(
     const note =
       whiteNotes[i];
 
+
     const key =
       document.createElement(
         "button"
       );
 
+
     key.type =
       "button";
+
 
     key.className =
       "white-key";
 
+
     key.textContent =
       note +
       octaveNumber;
+
 
     bindKey(
       key,
@@ -2457,11 +1929,15 @@ function createOctave(
       octaveNumber
     );
 
+
     whites.appendChild(
       key
     );
 
   }
+
+
+  /* PRETAS */
 
   const blackPositions = [
 
@@ -2492,6 +1968,7 @@ function createOctave(
 
   ];
 
+
   for(
     const data
     of blackPositions
@@ -2502,14 +1979,18 @@ function createOctave(
         "button"
       );
 
+
     key.type =
       "button";
+
 
     key.className =
       "black-key";
 
+
     key.style.left =
       data.left;
+
 
     bindKey(
       key,
@@ -2517,37 +1998,45 @@ function createOctave(
       octaveNumber
     );
 
+
     blacks.appendChild(
       key
     );
 
   }
 
+
   octaveElement.appendChild(
     whites
   );
 
+
   octaveElement.appendChild(
     blacks
   );
+
 
   return octaveElement;
 
 }
 
 
-/* =================================
+/* =====================================================
    RENDERIZAR
-================================= */
+===================================================== */
 
 function renderPiano(){
 
   stopAllNotes();
 
+
   keyboard.innerHTML =
     "";
 
-  const octaveList = [];
+
+  const octaveList =
+    [];
+
 
   for(
     let i = 0;
@@ -2561,27 +2050,33 @@ function renderPiano(){
 
   }
 
+
   if(inverted){
 
     octaveList.reverse();
 
   }
 
-  octaveList.forEach(
-    (number,index) => {
 
-      const octaveElement =
-        createOctave(
-          number,
-          index
-        );
+  octaveList.forEach(
+    number => {
 
       keyboard.appendChild(
-        octaveElement
+        createOctave(
+          number
+        )
       );
 
     }
   );
+
+
+  /*
+   * C final.
+   *
+   * Ele entra no último bloco,
+   * mantendo a estrutura original.
+   */
 
   const finalOctave =
     inverted
@@ -2589,8 +2084,10 @@ function renderPiano(){
       : octave +
         visibleOctaves;
 
+
   const lastOctave =
     keyboard.lastElementChild;
+
 
   if(lastOctave){
 
@@ -2599,20 +2096,25 @@ function renderPiano(){
         ".white-keys"
       );
 
+
     const key =
       document.createElement(
         "button"
       );
 
+
     key.type =
       "button";
+
 
     key.className =
       "white-key";
 
+
     key.textContent =
       "C" +
       finalOctave;
+
 
     bindKey(
       key,
@@ -2620,44 +2122,64 @@ function renderPiano(){
       finalOctave
     );
 
+
     whites.appendChild(
       key
     );
 
   }
 
+
   updateKeyboardSize();
+
 
   octaveValue.textContent =
     octave;
 
+
   updateViewLabel();
+
 
   updateNavigation();
 
 }
 
 
-/* =================================
-   TAMANHO
-================================= */
+/* =====================================================
+   TAMANHO DO TECLADO
+===================================================== */
 
 function updateKeyboardSize(){
 
   const width =
     pianoViewport.clientWidth;
 
+
+  /*
+   * A largura visual continua sendo
+   * exatamente a largura da tela.
+   */
+
   piano.style.width =
-    width + "px";
+    width +
+    "px";
+
 
   const octaves =
     keyboard.querySelectorAll(
       ".octave"
     );
 
+
+  /*
+   * Cada bloco ocupa uma parte
+   * igual da tela.
+   */
+
   const octaveWidth =
     width /
     visibleOctaves;
+
 
   octaves.forEach(
     octaveElement => {
@@ -2667,14 +2189,27 @@ function updateKeyboardSize(){
         octaveWidth +
         "px";
 
+      octaveElement.style.width =
+        octaveWidth +
+        "px";
+
     }
   );
 
+
+  /*
+   * Largura das teclas.
+   */
+
   const whiteWidth =
-    octaveWidth / 7;
+    octaveWidth /
+    7;
+
 
   const blackWidth =
-    whiteWidth * 0.62;
+    whiteWidth *
+    .62;
+
 
   keyboard
     .querySelectorAll(
@@ -2687,37 +2222,50 @@ function updateKeyboardSize(){
           Math.max(
             5,
             blackWidth
-          ) + "px";
+          ) +
+          "px";
 
       }
     );
 
+
+  /*
+   * Texto das teclas.
+   */
+
   let fontSize =
     11;
+
 
   if(
     visibleOctaves >= 3
   ){
 
-    fontSize = 9;
+    fontSize =
+      9;
 
   }
+
 
   if(
     visibleOctaves >= 5
   ){
 
-    fontSize = 7;
+    fontSize =
+      7;
 
   }
+
 
   if(
     visibleOctaves >= 7
   ){
 
-    fontSize = 5;
+    fontSize =
+      5;
 
   }
+
 
   keyboard
     .querySelectorAll(
@@ -2727,23 +2275,33 @@ function updateKeyboardSize(){
       key => {
 
         key.style.fontSize =
-          fontSize + "px";
+          fontSize +
+          "px";
 
       }
     );
 
+
+  /*
+   * Mantém o teclado dentro
+   * dos limites reais.
+   */
+
+  requestAnimationFrame(
+    updateNavigation
+  );
+
 }
 
 
-/* =================================
-   LABEL
-================================= */
+/* =====================================================
+   LABEL DE VISÍVEIS
+===================================================== */
 
 function updateViewLabel(){
 
   if(
-    visibleOctaves ===
-    1
+    visibleOctaves === 1
   ){
 
     viewValue.textContent =
@@ -2760,145 +2318,30 @@ function updateViewLabel(){
 }
 
 
-/* =================================
-   INSTRUMENTOS
-================================= */
+/* =====================================================
+   LARGURA REAL
+===================================================== */
 
-instrumentButtons.forEach(
-  button => {
+function getKeyboardWidth(){
 
-    button.addEventListener(
-      "click",
-      event => {
+  return keyboard.scrollWidth;
 
-        event.preventDefault();
-
-        unlockAudio();
-
-        currentInstrument =
-          button.dataset.instrument;
-
-        stopAllNotes();
-
-        instrumentButtons.forEach(
-          item => {
-
-            item.classList.toggle(
-              "active",
-              item === button
-            );
-
-          }
-        );
-
-        const names = {
-
-          piano:
-            "🎹 Piano pronto",
-
-          sax:
-            "🎷 Saxofone pronto",
-
-          trumpet:
-            "🎺 Trompete pronto",
-
-          flute:
-            "🪈 Flauta pronta",
-
-          trombone:
-            "🎺 Trombone pronto",
-
-          drums:
-            "🥁 Bateria pronta",
-
-          guitar:
-            "🎸 Guitarra pronta",
-
-          acoustic:
-            "🎸 Violão pronto"
-
-        };
-
-        status.textContent =
-          names[
-            currentInstrument
-          ];
-
-      }
-    );
-
-  }
-);
+}
 
 
-/* =================================
-   VISÍVEIS -
-================================= */
-
-viewDown.addEventListener(
-  "click",
-  event => {
-
-    event.preventDefault();
-
-    if(
-      visibleOctaves <
-      MAX_VISIBLE
-    ){
-
-      visibleOctaves++;
-
-      viewOffset =
-        0;
-
-      renderPiano();
-
-    }
-
-  }
-);
-
-
-/* =================================
-   VISÍVEIS +
-================================= */
-
-viewUp.addEventListener(
-  "click",
-  event => {
-
-    event.preventDefault();
-
-    if(
-      visibleOctaves >
-      MIN_VISIBLE
-    ){
-
-      visibleOctaves--;
-
-      viewOffset =
-        0;
-
-      renderPiano();
-
-    }
-
-  }
-);
-
-
-/* =================================
+/* =====================================================
    NAVEGAÇÃO
-================================= */
+===================================================== */
 
 function updateNavigation(){
 
   const maxOffset =
     Math.max(
       0,
-      keyboard.scrollWidth -
+      getKeyboardWidth() -
       pianoViewport.clientWidth
     );
+
 
   viewOffset =
     Math.max(
@@ -2909,56 +2352,80 @@ function updateNavigation(){
       )
     );
 
+
   keyboard.style.transform =
-    "translateX(" +
+    "translate3d(" +
     (-viewOffset) +
-    "px";
+    "px,0,0)";
+
 
   navLeft.disabled =
-    viewOffset <= 0;
+    viewOffset <= .5;
+
 
   navRight.disabled =
     viewOffset >=
-    maxOffset;
+    maxOffset - .5;
 
 }
 
 
+/* =====================================================
+   BOTÃO ESQUERDA
+===================================================== */
+
 navLeft.addEventListener(
-  "click",
-  () => {
+  "pointerdown",
+  event => {
+
+    event.preventDefault();
+
+    event.stopPropagation();
+
 
     const amount =
       pianoViewport.clientWidth *
-      0.6;
+      .6;
 
-    viewOffset =
-      Math.max(
-        0,
-        viewOffset -
-        amount
-      );
+
+    viewOffset -=
+      amount;
+
 
     updateNavigation();
 
+  },
+  {
+    passive:false
   }
 );
 
 
+/* =====================================================
+   BOTÃO DIREITA
+===================================================== */
+
 navRight.addEventListener(
-  "click",
-  () => {
+  "pointerdown",
+  event => {
+
+    event.preventDefault();
+
+    event.stopPropagation();
+
 
     const maxOffset =
       Math.max(
         0,
-        keyboard.scrollWidth -
+        getKeyboardWidth() -
         pianoViewport.clientWidth
       );
 
+
     const amount =
       pianoViewport.clientWidth *
-      0.6;
+      .6;
+
 
     viewOffset =
       Math.min(
@@ -2967,18 +2434,25 @@ navRight.addEventListener(
         amount
       );
 
+
     updateNavigation();
 
+  },
+  {
+    passive:false
   }
 );
 
 
-/* =================================
+/* =====================================================
    ARRASTAR
-================================= */
+===================================================== */
 
 let dragging =
   false;
+
+let dragPointerId =
+  null;
 
 let dragStartX =
   0;
@@ -2986,13 +2460,14 @@ let dragStartX =
 let dragStartOffset =
   0;
 
+
 pianoViewport.addEventListener(
   "pointerdown",
   event => {
 
     if(
       event.target.closest(
-        ".white-key,.black-key"
+        ".white-key,.black-key,.nav-button"
       )
     ){
 
@@ -3000,25 +2475,39 @@ pianoViewport.addEventListener(
 
     }
 
+
     const maxOffset =
       Math.max(
         0,
-        keyboard.scrollWidth -
+        getKeyboardWidth() -
         pianoViewport.clientWidth
       );
 
-    if(maxOffset <= 0){
+
+    if(
+      maxOffset <= 0
+    ){
+
       return;
+
     }
+
 
     dragging =
       true;
 
+
+    dragPointerId =
+      event.pointerId;
+
+
     dragStartX =
       event.clientX;
 
+
     dragStartOffset =
       viewOffset;
+
 
     try{
 
@@ -3028,28 +2517,47 @@ pianoViewport.addEventListener(
 
     }catch{}
 
+  },
+  {
+    passive:false
   }
 );
 
+
+/* =====================================================
+   MOVIMENTO
+===================================================== */
 
 pianoViewport.addEventListener(
   "pointermove",
   event => {
 
-    if(!dragging){
+    if(
+      !dragging ||
+      event.pointerId !==
+      dragPointerId
+    ){
+
       return;
+
     }
+
+
+    event.preventDefault();
+
 
     const difference =
       event.clientX -
       dragStartX;
 
+
     const maxOffset =
       Math.max(
         0,
-        keyboard.scrollWidth -
+        getKeyboardWidth() -
         pianoViewport.clientWidth
       );
+
 
     viewOffset =
       Math.max(
@@ -3061,37 +2569,201 @@ pianoViewport.addEventListener(
         )
       );
 
+
     updateNavigation();
 
+  },
+  {
+    passive:false
   }
 );
+
+
+/* =====================================================
+   FINALIZAR ARRASTE
+===================================================== */
+
+function stopDragging(){
+
+  dragging =
+    false;
+
+  dragPointerId =
+    null;
+
+
+  updateNavigation();
+
+}
 
 
 pianoViewport.addEventListener(
   "pointerup",
-  () => {
-
-    dragging =
-      false;
-
-  }
+  stopDragging
 );
-
 
 pianoViewport.addEventListener(
   "pointercancel",
-  () => {
+  stopDragging
+);
 
-    dragging =
-      false;
+pianoViewport.addEventListener(
+  "lostpointercapture",
+  stopDragging
+);
 
+
+/* =====================================================
+   VISÍVEIS -
+===================================================== */
+
+viewDown.addEventListener(
+  "pointerdown",
+  event => {
+
+    event.preventDefault();
+
+    event.stopPropagation();
+
+
+    /*
+     * O botão − aumenta a quantidade
+     * de teclas/oitavas visíveis,
+     * como no código original.
+     */
+
+    if(
+      visibleOctaves <
+      MAX_VISIBLE
+    ){
+
+      visibleOctaves++;
+
+
+      viewOffset =
+        0;
+
+
+      renderPiano();
+
+    }
+
+  },
+  {
+    passive:false
   }
 );
 
 
-/* =================================
+/* =====================================================
+   VISÍVEIS +
+===================================================== */
+
+viewUp.addEventListener(
+  "pointerdown",
+  event => {
+
+    event.preventDefault();
+
+    event.stopPropagation();
+
+
+    if(
+      visibleOctaves >
+      MIN_VISIBLE
+    ){
+
+      visibleOctaves--;
+
+
+      viewOffset =
+        0;
+
+
+      renderPiano();
+
+    }
+
+  },
+  {
+    passive:false
+  }
+);
+
+
+/* =====================================================
+   OITAVA -
+===================================================== */
+
+octaveDown.addEventListener(
+  "pointerdown",
+  event => {
+
+    event.preventDefault();
+
+    event.stopPropagation();
+
+
+    if(
+      octave > 1
+    ){
+
+      octave--;
+
+
+      viewOffset =
+        0;
+
+
+      renderPiano();
+
+    }
+
+  },
+  {
+    passive:false
+  }
+);
+
+
+/* =====================================================
+   OITAVA +
+===================================================== */
+
+octaveUp.addEventListener(
+  "pointerdown",
+  event => {
+
+    event.preventDefault();
+
+    event.stopPropagation();
+
+
+    if(
+      octave < 7
+    ){
+
+      octave++;
+
+
+      viewOffset =
+        0;
+
+
+      renderPiano();
+
+    }
+
+  },
+  {
+    passive:false
+  }
+);
+
+
+/* =====================================================
    ORIENTAÇÃO
-================================= */
+===================================================== */
 
 function updateOrientation(){
 
@@ -3100,9 +2772,11 @@ function updateOrientation(){
     "horizontal"
   );
 
+
   document.body.classList.add(
     orientation
   );
+
 
   verticalBtn.classList.toggle(
     "active",
@@ -3110,11 +2784,13 @@ function updateOrientation(){
       "vertical"
   );
 
+
   horizontalBtn.classList.toggle(
     "active",
     orientation ===
       "horizontal"
   );
+
 
   rotateBtn.textContent =
     orientation ===
@@ -3124,6 +2800,7 @@ function updateOrientation(){
 
       : "↕️ Vertical";
 
+
   setTimeout(
     () => {
 
@@ -3132,15 +2809,24 @@ function updateOrientation(){
       updateNavigation();
 
     },
-    30
+    50
   );
 
 }
 
 
+/* =====================================================
+   BOTÃO HORIZONTAL
+===================================================== */
+
 rotateBtn.addEventListener(
-  "click",
-  () => {
+  "pointerdown",
+  event => {
+
+    event.preventDefault();
+
+    event.stopPropagation();
+
 
     orientation =
       orientation ===
@@ -3150,133 +2836,136 @@ rotateBtn.addEventListener(
 
         : "vertical";
 
+
     updateOrientation();
 
+  },
+  {
+    passive:false
   }
 );
 
 
+/* =====================================================
+   VERTICAL
+===================================================== */
+
 verticalBtn.addEventListener(
-  "click",
-  () => {
+  "pointerdown",
+  event => {
+
+    event.preventDefault();
+
+    event.stopPropagation();
+
 
     orientation =
       "vertical";
 
+
     updateOrientation();
 
+  },
+  {
+    passive:false
   }
 );
 
 
+/* =====================================================
+   HORIZONTAL
+===================================================== */
+
 horizontalBtn.addEventListener(
-  "click",
-  () => {
+  "pointerdown",
+  event => {
+
+    event.preventDefault();
+
+    event.stopPropagation();
+
 
     orientation =
       "horizontal";
 
+
     updateOrientation();
 
+  },
+  {
+    passive:false
   }
 );
 
 
-/* =================================
+/* =====================================================
    INVERTER
-================================= */
+===================================================== */
 
 invertBtn.addEventListener(
-  "click",
-  () => {
+  "pointerdown",
+  event => {
+
+    event.preventDefault();
+
+    event.stopPropagation();
+
 
     inverted =
       !inverted;
 
+
     viewOffset =
       0;
 
+
     renderPiano();
 
+  },
+  {
+    passive:false
   }
 );
 
 
-/* =================================
-   OITAVA -
-================================= */
-
-octaveDown.addEventListener(
-  "click",
-  () => {
-
-    if(
-      octave > 1
-    ){
-
-      octave--;
-
-      viewOffset =
-        0;
-
-      renderPiano();
-
-    }
-
-  }
-);
-
-
-/* =================================
-   OITAVA +
-================================= */
-
-octaveUp.addEventListener(
-  "click",
-  () => {
-
-    if(
-      octave < 7
-    ){
-
-      octave++;
-
-      viewOffset =
-        0;
-
-      renderPiano();
-
-    }
-
-  }
-);
-
-
-/* =================================
+/* =====================================================
    TECLADO FÍSICO
-================================= */
+===================================================== */
 
 document.addEventListener(
   "keydown",
   event => {
 
-    if(event.repeat){
+    if(
+      event.repeat
+    ){
+
       return;
+
     }
+
 
     const key =
       event.key.toLowerCase();
+
 
     const index =
       computerKeys.indexOf(
         key
       );
 
-    if(index === -1){
+
+    if(
+      index === -1
+    ){
+
       return;
+
     }
 
+
     unlockAudio();
+
 
     const targets =
       [
@@ -3285,32 +2974,48 @@ document.addEventListener(
         )
       ];
 
+
     const target =
       targets[index];
 
-    if(!target){
+
+    if(
+      !target
+    ){
+
       return;
+
     }
+
 
     const note =
       target.dataset.note;
+
 
     const noteOctave =
       Number(
         target.dataset.octave
       );
 
-    if(!note){
+
+    if(
+      !note
+    ){
+
       return;
+
     }
+
 
     target._pressed =
       true;
+
 
     pressed.set(
       key,
       target
     );
+
 
     playNote(
       note,
@@ -3322,6 +3027,10 @@ document.addEventListener(
 );
 
 
+/* =====================================================
+   SOLTAR TECLADO FÍSICO
+===================================================== */
+
 document.addEventListener(
   "keyup",
   event => {
@@ -3329,21 +3038,30 @@ document.addEventListener(
     const key =
       event.key.toLowerCase();
 
+
     const target =
       pressed.get(
         key
       );
 
-    if(!target){
+
+    if(
+      !target
+    ){
+
       return;
+
     }
+
 
     target._pressed =
       false;
 
+
     stopNote(
       target
     );
+
 
     pressed.delete(
       key
@@ -3353,9 +3071,9 @@ document.addEventListener(
 );
 
 
-/* =================================
+/* =====================================================
    RESIZE
-================================= */
+===================================================== */
 
 window.addEventListener(
   "resize",
@@ -3369,16 +3087,17 @@ window.addEventListener(
 );
 
 
-/* =================================
+/* =====================================================
    INICIALIZAÇÃO
-================================= */
+===================================================== */
 
 renderPiano();
+
+updateOrientation();
 
 })();
 
 </script>
 
-</div>
 </body>
 </html>
